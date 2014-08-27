@@ -3,14 +3,17 @@ version: 0.0.4
 inherits: wercker/ubuntu12.04-chef10.18.2@0.0.8
 type: service
 platform: ubuntu@12.04
-description: postgresql
+description: postgresql9
 keywords:
-  - postgresql
+  - postgresql9
 packages:
-  - postgresql
+  - postgresql9
 script: |
   sudo chef-solo -c $WERCKER_SOURCE_DIR/solo.rb -j $WERCKER_SOURCE_DIR/solo.json -l debug
-  sudo apt-get install postgresql-contrib
+  sudo deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main
+  sudo wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \sudo apt-key 
+  sudo add -sudo apt-get update
+  sudo apt-get install postgresql-9.3
 env:
   WERCKER_POSTGRESQL_USERNAME: postgres
   WERCKER_POSTGRESQL_PASSWORD: wercker
